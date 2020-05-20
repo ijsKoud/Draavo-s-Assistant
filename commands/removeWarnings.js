@@ -33,6 +33,15 @@ module.exports.run = async(client, message, argument) => {
     
     message.channel.send(removeWarnsMessageEmbed);
     removeWarnUser.send(removeWarnsMessageDMEmbed);
+    console.log(`Removed warnings from ${removeWarnUser}`);
+
+    points[removeWarnUser.id].points = points[removeWarnUser.id].points - points[removeWarnUser.id].pointss; {
+        fs.writeFileSync("points.json" , JSON.stringify(points) , (error) => {
+
+            if (error) console.log(error);
+
+        });
+    };
 }
 
 module.exports.help = {
