@@ -6,7 +6,7 @@ const fs = require("fs")
 const client = new discord.Client();
 client.commands = new discord.Collection();
 
-client.login(process.env.token);
+client.login(botConfig.token);
 
 fs.readdir("./commands/" , (err, files) => {
 
@@ -92,4 +92,45 @@ client.on("guildMemberRemove" , member => {
 
 });
 
+client.on("messageUpdate", async (oldMessage, newMessage) => {
+    if(oldMessage.content === newMessage.content) return;
+
+    const adminLogchannel = newMessage.guild.channels.cache.get(botConfig.adminLogChannel);
+
+    var messageUpdateEmbed = new discord.MessageEmbed()
+        .setAuthor(oldMessage.author.tag, oldMessage.author.avatarURL())
+        .setTitle(`${oldMessage.author.tag} updated a message!`)
+        .addFields(
+            {name: "**Old Message: **" , value: `${oldMessage.content}`},
+            {name: "**New Message: **" , value: `${newMessage.content}`},
+            {name: "**Channel: **" , value: `${oldMessage.channel}`}
+        )
+        .setColor(botConfig.blueColour)
+        .setTimestamp()
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.");
+
+        adminLogchannel.send(messageUpdateEmbed);
+});
+
+client.on("messageDelete", async (deletedMessage) => {
+    
+    const adminLogchannel = deletedMessage.guild.channels.cache.get(botConfig.adminLogChannel);
+
+    var messageDeleter = deletedMessage.author.tag;
+    
+    if(deletedMessage = `${botConfig.prefix}clear`) return;
+
+    var messageDeleteEmbed = new discord.MessageEmbed()
+        .setAuthor(deletedMessage.author.tag, deletedMessage.author.avatarURL())
+        .setTitle(`${deletedMessage.author.tag} deleted a message!`)
+        .addFields(
+            {name: "**Message: **" , value: `${deletedMessage.content}`},
+            {name: "**Channel: **" , value: `${deletedMessage.channel}`}
+        )
+        .setColor(botConfig.redColour)
+        .setTimestamp()
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.");
+
+        adminLogchannel.send(messageDeleteEmbed);
+});
 

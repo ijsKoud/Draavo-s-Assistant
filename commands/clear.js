@@ -1,4 +1,5 @@
 const discord = require("discord.js");
+const botConfig = require("../botConfig.json");
 
 module.exports.run = async(client, message, argument) => {
 
@@ -20,6 +21,21 @@ module.exports.run = async(client, message, argument) => {
                 message.channel.send(`${argument[0]} messages deleted!`) .then(message => message.delete({timeout: 3000}))
             };
         });
+
+        const adminLogchannel = message.guild.channels.cache.get(botConfig.adminLogChannel);
+
+        var messageDeleteByBotEmbed = new discord.MessageEmbed()
+        .setAuthor(message.author.tag, message.author.avatarURL())
+        .setTitle(`${message.author.tag} bulk deleted a message!`)
+        .addFields(
+            {name: "**count: **" , value: `${amount}`},
+            {name: "**Channel: **" , value: `${message.channel}`}
+        )
+        .setColor(botConfig.redColour)
+        .setTimestamp()
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.");
+
+        adminLogchannel.send(messageDeleteByBotEmbed);
 
     } else
         return message.reply("Please fill in a valid number of messages!");

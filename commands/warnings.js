@@ -1,9 +1,10 @@
 const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
 const client = new discord.Client();
+const ms = require("ms");
 
 const fs = require("fs");
-const points = JSON.parse(fs.readFileSync("./points.json" , "utf8"));
+const points = JSON.parse(fs.readFileSync("./data/points.json" , "utf8"));
 
 
 module.exports.run = async(client, message, argument) => {
@@ -61,6 +62,56 @@ module.exports.run = async(client, message, argument) => {
     message.channel.send(warnEmbed).then(async msg => {
         
     });
+
+    if (points[warnUser.id].points == 2){
+
+        var mutTime = "5m"
+        var autoMuteReason = "You got 2 moderation points which means an auto Temp mute of 5 minutes!"
+        var muteRole = message.guild.roles.cache.get(botConfig.muteRole);
+
+        var tempMuteAdminLogEmbed = new discord.MessageEmbed()
+        .setColor(botConfig.blackColour)
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.")
+        .setTimestamp()
+        .setTitle(`${tempMuteUser.user.tag} has been temp Muted!!`)
+        .setDescription(`**Muted by: ** ${client.user.tag} \n **Reason: ** ${autoMuteReason} \n **Time: ** ${muteTime}`);
+
+    var tempMuteDMEmbed = new discord.MessageEmbed()
+        .setColor(botConfig.blackColour)
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.")
+        .setTimestamp()
+        .setTitle(`It looks like you have been muted on our discord server!!`)
+        .setDescription(`**Muted by: ** ${client.user.tag} \n **Reason: ** ${autoMuteReason} \n **Time: ** ${muteTime} \n \n Please be kind and respectful next time! Don't forget to follow the rules as well!`);
+
+    var tempMuteEmbed = new discord.MessageEmbed()
+        .setColor(botConfig.blackColour)
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.")
+        .setTimestamp()
+        .setTitle(`${tempMuteUser.user.tag} has been temp Muted!!`)
+        .setDescription(`**Muted by: ** ${client.user.tag} \n **Reason: ** ${autoMuteReason} \n **Time: ** ${muteTime}`);
+
+    var unTempMuteEmbed = new discord.MessageEmbed()
+        .setColor(botConfig.greenColour)
+        .setFooter("Hi, I'm a footer! I server no purpose of life here.")
+        .setTimestamp()
+        .setTitle(`Yay! You are unmuted from our discord server!`)
+        .setDescription("Please listen to staff members and follow the rules to avoid further punishments!");
+
+    await(tempMuteUser.roles.add(muteRole.id));
+
+    message.channel.send(tempMuteEmbed);
+    let adminLogChannel = message.guild.channels.cache.get(botConfig.adminLogChannel)
+    if(adminLogChannel) adminLogChannel.send(tempMuteAdminLogEmbed);
+    tempMuteUser.send(tempMuteDMEmbed);
+
+    setTimeout(() => {
+
+        tempMuteUser.roles.remove(muteRole.id);
+        tempMuteUser.send(unTempMuteEmbed);
+
+    }, ms(muteTime));
+
+    };
 
     if (points[warnUser.id].points == 16) {
         
