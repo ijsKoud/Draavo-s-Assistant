@@ -1,5 +1,5 @@
 const discord = require("discord.js");
-const botConfig = require("./botconfig.json");
+const botConfig = require("./botConfig.json");
 const colors = require("./data/colors.json");
 const channelRoles = require("./data/channels_roles.json");
 const others = require("./data/others.json");
