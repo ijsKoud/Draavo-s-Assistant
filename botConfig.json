@@ -1,15 +1,4 @@
 {
-    "token":"NzExOTM0NzE3OTA1MzM4Mzc5.XsKhFg.uOPGrvY5DKT0PUwzhfbr-BwkTZY",
-    "prefix":"!",
-    "logChannel":"711479471131328573",
-    "rulesChannel":"711825143982194718",
-    "verifyChannel":"711825121962098778",
-    "adminLogChannel":"712558173009215508",
-    "blueColour":"#006aff",
-    "greenColour":"#0ffc03",
-    "redColour":"#fc0303",
-    "blackColour":"#030303",
-    "thumbnail":"https://imgur.com/cIcUtFF.png",
-    "muteRole":"711652453564678174",
-    "botName":"Draavo's Assistant"
+    "token":"NzExNDY4ODkzNDU3MDg4NTUz.XsTVGA.gGZA7rYMNXtN937jsEXEex6M1sA",
+    "prefix":"!"
 }

@@ -15,8 +15,11 @@
   "author": "Daan",
   "license": "ISC",
   "dependencies": {
+    "date-format": "^3.0.0",
+    "dateformat": "^3.0.3",
     "discord.js": "^12.2.0",
-    "ms": "^2.1.2"
+    "ms": "^2.1.2",
+    "superagent": "^5.2.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

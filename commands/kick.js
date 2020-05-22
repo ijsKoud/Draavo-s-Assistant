@@ -1,5 +1,8 @@
 const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 module.exports.run = async(client, message, argument) => {
 
@@ -22,7 +25,7 @@ module.exports.run = async(client, message, argument) => {
     if (!kickUser) return message.reply("Can not find the user!");
 
     var kickEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()

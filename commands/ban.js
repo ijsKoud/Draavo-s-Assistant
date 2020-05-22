@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
 const client = new discord.Client();
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 module.exports.run = async(client, message, argument) => {
 
@@ -25,15 +28,15 @@ module.exports.run = async(client, message, argument) => {
     if (!banUser) return message.reply("Can not find the user!");
 
     var banEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
-        .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
+        .setColor(colors.greenColour)
+        .setThumbnail(others.botAvatarURL)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`${banUser} has been banned!!`)
         .setDescription(`**banned by: ** ${message.author} \n **Reason: ** ${reason}`);
 
     var banLogEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -42,7 +45,7 @@ module.exports.run = async(client, message, argument) => {
         `);
 
     var bannedDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()

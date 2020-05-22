@@ -2,6 +2,9 @@ const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
 const client = new discord.Client();
 const ms = require("../node_modules/ms");
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 const fs = require("fs");
 const points = JSON.parse(fs.readFileSync("./data/points.json" , "utf8"));
@@ -29,34 +32,34 @@ module.exports.run = async(client, message, argument) => {
     var reason = args.slice(3).join(" ");
     var warnerName = message.author.username;
     var warnedUsername = tempMuteUser.username;
-    var muteRole = message.guild.roles.cache.get(botConfig.muteRole);
+    var muteRole = message.guild.roles.cache.get(channelRoles.muteRole);
 
     if (!tempMuteUser) return message.reply("Can not find the user!");
 
     var tempMuteAdminLogEmbed = new discord.MessageEmbed()
         .setAuthor(tempMuteUser.user.tag)
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`${tempMuteUser.user.tag} has been temp Muted!!`)
         .setDescription(`**Muted by: ** ${message.author} \n **Reason: ** ${reason} \n **Time: ** ${muteTime}`);
 
     var tempMuteDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`It looks like you have been muted on our discord server!!`)
         .setDescription(`**Muted by: ** ${message.author} \n **Reason: ** ${reason} \n **Time: ** ${muteTime} \n \n Please be kind and respectful next time! Don't forget to follow the rules as well!`);
 
     var tempMuteEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`${tempMuteUser.user.tag} has been temp Muted!!`)
         .setDescription(`**Muted by: ** ${message.author} \n **Reason: ** ${reason} \n **Time: ** ${muteTime}`);
 
     var unTempMuteEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`Yay! You are unmuted from our discord server!`)
@@ -65,7 +68,7 @@ module.exports.run = async(client, message, argument) => {
     await(tempMuteUser.roles.add(muteRole.id));
 
     message.channel.send(tempMuteEmbed);
-    let adminLogChannel = message.guild.channels.cache.get(botConfig.adminLogChannel)
+    let adminLogChannel = message.guild.channels.cache.get(channelRoles.adminLogChannel)
     if(adminLogChannel) adminLogChannel.send(tempMuteAdminLogEmbed);
     tempMuteUser.send(tempMuteDMEmbed);
 

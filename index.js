@@ -1,14 +1,22 @@
 const discord = require("discord.js");
-const botConfig = require("./botConfig.json");
+const botConfig = require("./botconfig.json");
+const colors = require("./data/colors.json");
+const channelRoles = require("./data/channels_roles.json");
+const others = require("./data/others.json");
 
 const fs = require("fs")
+const points = JSON.parse(fs.readFileSync("./data/deactivate.json" , "utf8"));
 
 const client = new discord.Client();
 client.commands = new discord.Collection();
 
+var botID = others.botID;
+
 client.login(botConfig.token);
 
-fs.readdir("./commands/" , (err, files) => {
+
+if (!points[botID].points == 1){
+    fs.readdir("./commands/" , (err, files) => {
 
     if(err) console.log(err);
 
@@ -26,7 +34,8 @@ fs.readdir("./commands/" , (err, files) => {
         client.commands.set(fileGet.help.name , fileGet);
     });
 
-});
+    });
+};
 
 client.on("ready", async () => {
 
@@ -55,7 +64,40 @@ var commands = client.commands.get(command.slice(prefix.length));
 
 if(commands) commands.run(client, message, arguments);
 
-})
+if (command === `${botConfig.prefix}activate`){
+    
+    var botID = others.botID;
+
+    if (points[botID].points === 0) return message.reply("I'm not de-activated yet!")
+    if (!message.author.id === botConfig.botOwnerID) return message.reply("You can not Activate me!")   
+
+    const activateReplyMessage = await message.channel.send("Activating...");
+    
+    const channel = message.guild.channels.cache.get(channelRoles.adminLogChannel);
+
+    
+    var botTag = others.botTag;
+    
+
+    var activateEmbed = new discord.MessageEmbed()
+        .setColor(colors.greenColour)
+        .setTimestamp(new Date())
+        .setAuthor(botTag, others.botAvatarURL)
+        .setDescription(`**ID:** ${botID}`, true)
+        .addField("Status", `Activated!`, true)
+        .setFooter(botConfig.footer)
+    channel.send(activateEmbed);
+
+    points[botID].points = points[botID].points - points[botID].points; {
+        fs.writeFile("./data/deactivate.json" , JSON.stringify(points) , (error) => {
+            if (error) console.log(error);
+        });
+    };
+
+    
+};
+
+});
 
 client.on("guildMemberAdd" , member => {
 
@@ -64,7 +106,7 @@ client.on("guildMemberAdd" , member => {
         var joinMessage = new discord.MessageEmbed()
             .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
             .setTitle("Hey there!")
-            .setColor(botConfig.greenColour) //Green colour
+            .setColor(colors.greenColourgreenColour) //Green colour
             .setAuthor(`${member.user.tag}` , member.user.displayAvatarURL())
             .addField(`**Welcome to Draavo's Hangout, ${member.user.username}!**` , `Please verify in <#${botConfig.verifyChannel}> and read the rules in <#${botConfig.rulesChannel}> Have fun!`)
             .setFooter("Hi, I'm a footer! I server no purpose of life here.")
@@ -81,7 +123,7 @@ client.on("guildMemberRemove" , member => {
         var leaveMessage = new discord.MessageEmbed()
             .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
             .setTitle("GoodBye!")
-            .setColor(botConfig.redColour) //Red colour
+            .setColor(colors.redColour) //Red colour
             .setAuthor(`${member.user.tag}` , member.user.displayAvatarURL())
             .addField(`**${member.user.username} Just left the server!**` , "Bye bye😥")
             .setFooter("Hi, I'm a footer! I server no purpose of life here.")
@@ -95,7 +137,9 @@ client.on("guildMemberRemove" , member => {
 client.on("messageUpdate", async (oldMessage, newMessage) => {
     if(oldMessage.content === newMessage.content) return;
 
-    const adminLogchannel = newMessage.guild.channels.cache.get(botConfig.adminLogChannel);
+    const adminLogchannel = newMessage.guild.channels.cache.get(channelRoles.adminLogChannel);
+
+    if(newMessage.author.id === others.botID) return console.log(`${others.botName} Updated a message!`);
 
     var messageUpdateEmbed = new discord.MessageEmbed()
         .setAuthor(oldMessage.author.tag, oldMessage.author.avatarURL())
@@ -105,7 +149,7 @@ client.on("messageUpdate", async (oldMessage, newMessage) => {
             {name: "**New Message: **" , value: `${newMessage.content}`},
             {name: "**Channel: **" , value: `${oldMessage.channel}`}
         )
-        .setColor(botConfig.blueColour)
+        .setColor(colors.blueColour)
         .setTimestamp()
         .setFooter("Hi, I'm a footer! I server no purpose of life here.");
 
@@ -114,11 +158,11 @@ client.on("messageUpdate", async (oldMessage, newMessage) => {
 
 client.on("messageDelete", async (deletedMessage) => {
     
-    const adminLogchannel = deletedMessage.guild.channels.cache.get(botConfig.adminLogChannel);
+    const adminLogchannel = deletedMessage.guild.channels.cache.get(channelRoles.adminLogChannel);
+
+    if(deletedMessage.author.id === others.botID) return console.log(`${others.botName} Updated a message!`);
 
     var messageDeleter = deletedMessage.author.tag;
-    
-    if(deletedMessage = `${botConfig.prefix}clear`) return;
 
     var messageDeleteEmbed = new discord.MessageEmbed()
         .setAuthor(deletedMessage.author.tag, deletedMessage.author.avatarURL())
@@ -127,7 +171,7 @@ client.on("messageDelete", async (deletedMessage) => {
             {name: "**Message: **" , value: `${deletedMessage.content}`},
             {name: "**Channel: **" , value: `${deletedMessage.channel}`}
         )
-        .setColor(botConfig.redColour)
+        .setColor(colors.redColour)
         .setTimestamp()
         .setFooter("Hi, I'm a footer! I server no purpose of life here.");
 

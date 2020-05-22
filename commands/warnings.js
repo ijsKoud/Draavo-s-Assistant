@@ -2,6 +2,9 @@ const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
 const client = new discord.Client();
 const ms = require("ms");
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 const fs = require("fs");
 const points = JSON.parse(fs.readFileSync("./data/points.json" , "utf8"));
@@ -30,7 +33,7 @@ module.exports.run = async(client, message, argument) => {
     if (!warnUser) return message.reply("Can not find the user!");
 
     points[warnUser.id].points++; {
-        fs.writeFile("points.json" , JSON.stringify(points) , (error) => {
+        fs.writeFile("./data/points.json" , JSON.stringify(points) , (error) => {
 
             if (error) console.log(error);
 
@@ -38,14 +41,14 @@ module.exports.run = async(client, message, argument) => {
     };
 
     var warnEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`${warnUser.user.tag} has been warned!!`)
         .setDescription(`**warned by: ** ${message.author} \n **Reason: ** ${reason} \n **Warning Count: ** ${points[warnUser.id].points}`);
 
     var warnedDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`Oh no! It looks like you have been warned on our server!`)
@@ -67,31 +70,31 @@ module.exports.run = async(client, message, argument) => {
 
         var mutTime = "5m"
         var autoMuteReason = "You got 2 moderation points which means an auto Temp mute of 5 minutes!"
-        var muteRole = message.guild.roles.cache.get(botConfig.muteRole);
+        var muteRole = message.guild.roles.cache.get(channelRoles.muteRole);
 
         var tempMuteAdminLogEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`${tempMuteUser.user.tag} has been temp Muted!!`)
         .setDescription(`**Muted by: ** ${client.user.tag} \n **Reason: ** ${autoMuteReason} \n **Time: ** ${muteTime}`);
 
     var tempMuteDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`It looks like you have been muted on our discord server!!`)
         .setDescription(`**Muted by: ** ${client.user.tag} \n **Reason: ** ${autoMuteReason} \n **Time: ** ${muteTime} \n \n Please be kind and respectful next time! Don't forget to follow the rules as well!`);
 
     var tempMuteEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`${tempMuteUser.user.tag} has been temp Muted!!`)
         .setDescription(`**Muted by: ** ${client.user.tag} \n **Reason: ** ${autoMuteReason} \n **Time: ** ${muteTime}`);
 
     var unTempMuteEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`Yay! You are unmuted from our discord server!`)
@@ -100,7 +103,7 @@ module.exports.run = async(client, message, argument) => {
     await(tempMuteUser.roles.add(muteRole.id));
 
     message.channel.send(tempMuteEmbed);
-    let adminLogChannel = message.guild.channels.cache.get(botConfig.adminLogChannel)
+    let adminLogChannel = message.guild.channels.cache.get(channelRoles.adminLogChannel)
     if(adminLogChannel) adminLogChannel.send(tempMuteAdminLogEmbed);
     tempMuteUser.send(tempMuteDMEmbed);
 
@@ -116,10 +119,10 @@ module.exports.run = async(client, message, argument) => {
     if (points[warnUser.id].points == 16) {
         
         var reason = ("You got the maximum of 16 moderation points!")
-        var bannerName = (`${botConfig.botName}`)
+        var bannerName = (`${others.botName}`)
 
         var banEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -127,7 +130,7 @@ module.exports.run = async(client, message, argument) => {
         .setDescription(`**banned by: ** ${message.author} \n **Reason: ** ${reason}`);
 
         var banLogEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -136,7 +139,7 @@ module.exports.run = async(client, message, argument) => {
         `);
 
         var bannedDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -148,7 +151,7 @@ module.exports.run = async(client, message, argument) => {
 
         message.channel.send(banEmbed).then(async msg => {
             warnUser.ban(reason);
-            let logChannel = msg.guild.channels.cache.get(botConfig.logChannel)
+            let logChannel = msg.guild.channels.cache.get(channelRoles.logChannel)
             if(logChannel) return logChannel.send(banLogEmbed);
         });
 

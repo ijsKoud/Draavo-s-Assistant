@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
 const client = new discord.Client();
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 const fs = require("fs");
 const points = JSON.parse(fs.readFileSync("./data/points.json" , "utf8"));
@@ -21,25 +24,25 @@ module.exports.run = async(client, message, argument) => {
     if(points[removeWarnUser.id].points == null) return message.reply("This user doesn't have any warnings!")
 
     var removeWarnsMessageEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`The warnings of ${removeWarnUser.user.tag} have been removed!!`)
 
     var removeWarnsMessageDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
         .setTitle(`Your warnings have been removed!!`)
     
-        const adminLogChannel = message.guild.channels.cache.get(botConfig.adminLogChannel);
+        const adminLogChannel = message.guild.channels.cache.get(channelRoles.adminLogChannel);
 
     message.channel.send(removeWarnsMessageEmbed);
     removeWarnUser.send(removeWarnsMessageDMEmbed);
     adminLogChannel.send(removeWarnsMessageEmbed);
     console.log(`Removed warnings from ${removeWarnUser}`);
 
-    points[removeWarnUser.id].points = points[removeWarnUser.id].points - points[removeWarnUser.id].pointss; {
+    points[removeWarnUser.id].points = points[removeWarnUser.id].points - points[removeWarnUser.id].points; {
         fs.writeFileSync("points.json" , JSON.stringify(points) , (error) => {
 
             if (error) console.log(error);

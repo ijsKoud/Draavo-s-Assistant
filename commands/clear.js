@@ -1,5 +1,8 @@
 const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 module.exports.run = async(client, message, argument) => {
 
@@ -22,16 +25,16 @@ module.exports.run = async(client, message, argument) => {
             };
         });
 
-        const adminLogchannel = message.guild.channels.cache.get(botConfig.adminLogChannel);
+        const adminLogchannel = message.guild.channels.cache.get(channelRoles.adminLogChannel);
 
         var messageDeleteByBotEmbed = new discord.MessageEmbed()
         .setAuthor(message.author.tag, message.author.avatarURL())
-        .setTitle(`${message.author.tag} bulk deleted a message!`)
+        .setTitle(`${message.author.tag} bulk deleted messages!`)
         .addFields(
             {name: "**count: **" , value: `${amount}`},
             {name: "**Channel: **" , value: `${message.channel}`}
         )
-        .setColor(botConfig.redColour)
+        .setColor(colors.redColour)
         .setTimestamp()
         .setFooter("Hi, I'm a footer! I server no purpose of life here.");
 

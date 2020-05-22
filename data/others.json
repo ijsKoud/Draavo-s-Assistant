@@ -1,0 +1,45 @@
+{
+    "botName":"Dave's Assistant",
+    "serverName":"Dave's workplace",
+    "serverOwner":"DaanGamesDG",
+    "botOwnerID":"304986851310043136",
+    "botID":"711468893457088553",
+    "guildID":"711479258215612497",
+    "botTag":"Dave’s TestBot#1114",
+
+    "botAvatarURL":"https://imgur.com/yF1t2QX.png",
+    "memeAvatarURL":"https://imgur.com/ztCjxI1.png",
+    "catAvatarURL":"https://imgur.com/8JgXuHb.png",
+    "dogAvatarURL":"https://imgur.com/NM5hGOw.png",
+    "pandaAvatarURL":"https://imgur.com/9xsFc2v.png",
+    "redPandaAvatarURL":"https://imgur.com/WVxoPKb.png",
+    "birdAvatarURL":"https://imgur.com/BTldfjs.png",
+    "foxAvatarURL":"https://imgur.com/MdJmjzQ.png",
+    "koalaAvatarURL":"https://imgur.com/iw2Dt7Q.png",
+    
+    "catRandomURL":"https://some-random-api.ml/img/cat",
+    "dogRandomURL":"https://some-random-api.ml/img/dog",
+    "pandaRandomURL":"https://some-random-api.ml/img/panda",
+    "redPandaRandomURL":"https://some-random-api.ml/img/red_panda",
+    "birdRandomURL":"https://some-random-api.ml/img/birb",
+    "foxRandomURL":"https://some-random-api.ml/img/fox",
+    "koalaRandomURL":"https://some-random-api.ml/img/koala",
+    "memeRandomURL":"https://some-random-api.ml/meme",
+
+    "catFactRandomURL":"https://some-random-api.ml/facts/cat",
+    "dogFactRandomURL":"https://some-random-api.ml/facts/dog",
+    "pandaFactRandomURL":"https://some-random-api.ml/facts/panda",
+    "birdFactRandomURL":"https://some-random-api.ml/facts/bird",
+    "foxFactRandomURL":"https://some-random-api.ml/facts/fox",
+    "koalaFactRandomURL":"https://some-random-api.ml/facts/koala",
+
+    "pickachuRandomURL":"https://some-random-api.ml/pikachuimg",
+    "pokemonAvatarURL":"https://imgur.com/aT6xybd.png",
+
+    "winkGifRandomURL":"https://some-random-api.ml/animu/wink",
+    "patGifRandomURL":"https://some-random-api.ml/animu/pat",
+    "hugGifRandomURL":"https://some-random-api.ml/animu/hug",
+    "animeAvatarURL":"https://imgur.com/ftH2IGn.png",
+
+    "footer":"Hi, I'm a footer! I server no purpose of life here."
+}

@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const botConfig = require("../botConfig.json");
 const client = new discord.Client();
+const colors = require("../data/colors.json");
+const channelRoles = require("../data/channels_roles.json");
+const others = require("../data/others.json");
 
 module.exports.run = async(client, message, argument) => {
 
@@ -21,7 +24,7 @@ module.exports.run = async(client, message, argument) => {
     if (!unBanUser) return message.reply("Can not find the user!");
 
     var unBanEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.greenColour)
+        .setColor(colors.greenColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -29,7 +32,7 @@ module.exports.run = async(client, message, argument) => {
         .setDescription(`**unbanned by: ** ${message.author} \n **Reason: ** ${reason}`);
 
     var unBanLogEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -37,7 +40,7 @@ module.exports.run = async(client, message, argument) => {
         .setDescription(`**unbanned by: ** ${message.author} \n **Reason: ** ${reason}`);
     
     var bannedDMEmbed = new discord.MessageEmbed()
-        .setColor(botConfig.blackColour)
+        .setColor(colors.blackColour)
         .setThumbnail("https://cdn.discordapp.com/emojis/710073834652303360.png?v=1")
         .setFooter("Hi, I'm a footer! I server no purpose of life here.")
         .setTimestamp()
@@ -49,7 +52,7 @@ module.exports.run = async(client, message, argument) => {
 
             message.channel.send(unBanEmbed).then(async msg => {
                 message.guild.members.unban(unBanUserID);
-                let logChannel = message.guild.channel.get(botConfig.logChannel);
+                let logChannel = message.guild.channel.get(channelRoles.logChannel);
                 if(logChannel) return logChannel.send(unBanLogEmbed);
             });
 
